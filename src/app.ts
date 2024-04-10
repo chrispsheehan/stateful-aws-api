@@ -1,7 +1,6 @@
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
 import generalHandlers from './generalHandlers';
-import githubHandlers from './githubHandlers';
 
 const app = express();
 
@@ -14,10 +13,6 @@ app.get('/hello', (_req, res) => {
 app
   .route(`${basePath}/ip`)
   .get(generalHandlers.getIp);
-
-app
-  .route(`${basePath}/git/stats`)
-  .get(githubHandlers.getGitStats);
 
 const server = awsServerlessExpress.createServer(app);
 
