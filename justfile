@@ -6,7 +6,6 @@ build:
     rm -f api.zip
     zip -r api.zip *
 
-
 run:
     #!/usr/bin/env bash
     source {{justfile_directory()}}/.env
@@ -15,3 +14,30 @@ run:
     DYNAMODB_TABLE=$DYNAMODB_TABLE \
     PORT=$API_PORT \
     node dist/app.local.js
+
+
+create-table:
+    #!/usr/bin/env bash
+    docker-compose down -v
+    docker-compose up
+    source {{justfile_directory()}}/.env.local
+    aws dynamodb create-table \
+        --endpoint-url http://localhost:8000 \
+        --region $DYNAMODB_REGION \
+        --table-name $DYNAMODB_TABLE \
+        --billing-mode PAY_PER_REQUEST \
+        --key-schema AttributeName=id,KeyType=HASH AttributeName=timestamp,KeyType=RANGE \
+        --attribute-definitions \
+            AttributeName=id,AttributeType=S \
+            AttributeName=timestamp,AttributeType=S \
+            AttributeName=ip,AttributeType=S \
+        --global-secondary-indexes \
+            "IndexName=IpIndex,KeySchema=[{AttributeName=ip,KeyType=HASH}],Projection={ProjectionType=ALL}"
+
+read-tables:
+    #!/usr/bin/env bash
+    source {{justfile_directory()}}/.env.local
+    aws dynamodb list-tables \
+        --endpoint-url http://localhost:8000 \
+        --region $DYNAMODB_REGION
+
