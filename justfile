@@ -34,10 +34,11 @@ create-table:
         --global-secondary-indexes \
             "IndexName=IpIndex,KeySchema=[{AttributeName=ip,KeyType=HASH}],Projection={ProjectionType=ALL}"
 
-read-tables:
+read-table:
     #!/usr/bin/env bash
     source {{justfile_directory()}}/.env.local
-    aws dynamodb list-tables \
-        --endpoint-url http://localhost:8000 \
-        --region $DYNAMODB_REGION
+    aws dynamodb scan \
+        --region $DYNAMODB_REGION \
+        --table-name $DYNAMODB_TABLE \
+        --endpoint-url http://localhost:8000
 
