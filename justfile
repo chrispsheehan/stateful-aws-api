@@ -10,9 +10,10 @@ run:
     #!/usr/bin/env bash
     source {{justfile_directory()}}/.env
     npx tsc
+    API_PORT=$API_PORT \
     DYNAMODB_REGION=$DYNAMODB_REGION \
     DYNAMODB_TABLE=$DYNAMODB_TABLE \
-    PORT=$API_PORT \
+    DYNAMODB_ENDPOINT=$DYNAMODB_ENDPOINT \
     node dist/app.local.js
 
 
