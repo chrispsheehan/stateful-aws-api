@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const dynamodb_table: string = process.env.DYNAMODB_TABLE;
 const dynamodb_region: string = process.env.DYNAMODB_REGION;
+const dynamodb_endpoint: string = process.env.DYNAMODB_ENDPOINT;
 
 if (!dynamodb_table) {
   throw new Error("DYNAMODB_TABLE is missing or empty.");
@@ -13,10 +14,15 @@ if (!dynamodb_region) {
   throw new Error("DYNAMODB_REGION is missing or empty.");
 }
 
+if (!dynamodb_endpoint) {
+  throw new Error("DYNAMODB_ENDPOINT is missing or empty.");
+}
+
 const client = new DynamoDBClient({
     region: dynamodb_region,
-    endpoint: "http://localhost:8000" 
+    endpoint: dynamodb_endpoint 
 });
+
 const docClient = DynamoDBDocumentClient.from(client);
 
 export async function record(ip: string) {
