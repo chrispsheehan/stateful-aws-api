@@ -13,8 +13,5 @@ COPY ./tsconfig.json /app/tsconfig.json
 RUN npm install
 RUN npx tsc
 
-# Starting our application
-# CMD [ "node", "/app//dist/app.local.js" ]
-
 # Exposing server port
 EXPOSE 9000

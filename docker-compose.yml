@@ -12,16 +12,6 @@ services:
    volumes:
      - "./docker/dynamodb:/home/dynamodblocal/data"
    working_dir: /home/dynamodblocal
-#  app-node:
-#    depends_on:
-#      - dynamodb-local
-#    image: amazon/aws-cli
-#    env_file: .env.local
-#    container_name: app-node
-#    ports:
-#     - "8080:8080"
-#    command:
-#      dynamodb describe-limits --endpoint-url http://dynamodb-local:8000
  app:
     depends_on:
       - dynamodb-local
