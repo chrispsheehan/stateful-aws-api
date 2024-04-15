@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function getIp(req: Request, res: Response) {
     const client = new DBClient();
+    
     const ip: string = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || "").toString()
     const newUuid = uuidv4();
 
