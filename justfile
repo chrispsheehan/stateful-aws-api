@@ -20,6 +20,7 @@ run:
 create-table:
     #!/usr/bin/env bash
     docker-compose down -v
+    rm -f docker/dynamodb/shared-local-instance.db
     docker-compose up
     source {{justfile_directory()}}/.env.local
     aws dynamodb create-table \
