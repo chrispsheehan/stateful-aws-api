@@ -10,19 +10,14 @@ export class DBClient extends DBBase {
 
   public async put(item: Record<string, any>): Promise<APIResponse> {
     try {
-      console.log('putting...' + this.dbTable + JSON.stringify(item));
-
       const params: PutCommandInput = {
           TableName: this.dbTable,
           Item: item
       };
 
-      console.log('HERE' + JSON.stringify(params))
-
-      const putResponse = await this.docClient.send(new PutCommand(params))
+      await this.docClient.send(new PutCommand(params))
 
       console.log("New item added:", params.Item);
-      console.log("Response:", putResponse);
 
       const resp = {
         code: 200,

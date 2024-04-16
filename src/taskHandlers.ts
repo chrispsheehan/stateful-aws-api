@@ -5,13 +5,19 @@ import { v4 as uuidv4 } from 'uuid';
 
 async function putTask(req: Request, res: Response) {
     const client = new DBClient();
+
     const newUuid = uuidv4();
+    const { title, description } = req.body;
+
+    if (title === null || title === undefined) {
+        return res.status(400).json({ error: "Title is required" });
+    }
 
     let response: APIResponse;
     const task: Record<string, any> = {
         id: newUuid,
-        title: "test",
-        description: "test badger badgers description",
+        title: title,
+        description: description,
         completed: false
     }
     response = await client.put(task);

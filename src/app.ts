@@ -3,6 +3,7 @@ import awsServerlessExpress from 'aws-serverless-express';
 import taskHandlers from './taskHandlers';
 
 const app = express();
+app.use(express.json());
 
 const basePath = "/api"
 

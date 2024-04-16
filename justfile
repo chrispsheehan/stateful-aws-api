@@ -6,7 +6,8 @@ build:
     rm -f api.zip
     zip -r api.zip *
 
-run:
+
+run-local:
     #!/usr/bin/env bash
     source {{justfile_directory()}}/.env
     npx tsc
@@ -20,29 +21,13 @@ run:
 start:
     #!/usr/bin/env bash
     just stop
-    docker-compose up -d
+    docker-compose up --force-recreate
 
 
 stop:
     #!/usr/bin/env bash
     docker-compose down -v
     rm -f docker/dynamodb/shared-local-instance.db
-
-
-create:
-    #!/usr/bin/env bash
-    source {{justfile_directory()}}/.env.local
-    aws dynamodb create-table \
-        --endpoint-url $LOCAL_DYNAMODB_ENDPOINT \
-        --region $DYNAMODB_REGION \
-        --table-name $DYNAMODB_TABLE \
-        --billing-mode PAY_PER_REQUEST \
-        --key-schema AttributeName=id,KeyType=HASH \
-        --attribute-definitions \
-            AttributeName=id,AttributeType=S \
-            AttributeName=title,AttributeType=S \
-        --global-secondary-indexes \
-            "IndexName=IpIndex,KeySchema=[{AttributeName=title,KeyType=HASH}],Projection={ProjectionType=ALL}"
 
 
 read:
@@ -52,7 +37,6 @@ read:
         --region $DYNAMODB_REGION \
         --table-name $DYNAMODB_TABLE \
         --endpoint-url $LOCAL_DYNAMODB_ENDPOINT
-
 
 
 # aws dynamodb put-item \
@@ -65,3 +49,9 @@ read:
 #         "description": {"S": "This is an example task description."},
 #         "completed": {"BOOL": false}
 #     }'
+
+
+# curl -X PUT \
+#   -H "Content-Type: application/json" \
+#   -d '{"title": "Example Title", "description": "Example Description"}' \
+#   http://localhost:9000/api/task
