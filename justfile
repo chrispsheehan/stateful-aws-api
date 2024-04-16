@@ -17,30 +17,51 @@ run:
     node dist/app.local.js
 
 
-create-table:
+start:
+    #!/usr/bin/env bash
+    just stop
+    docker-compose up -d
+
+
+stop:
     #!/usr/bin/env bash
     docker-compose down -v
     rm -f docker/dynamodb/shared-local-instance.db
-    docker-compose up
+
+
+create:
+    #!/usr/bin/env bash
     source {{justfile_directory()}}/.env.local
     aws dynamodb create-table \
-        --endpoint-url http://localhost:8000 \
+        --endpoint-url $LOCAL_DYNAMODB_ENDPOINT \
         --region $DYNAMODB_REGION \
         --table-name $DYNAMODB_TABLE \
         --billing-mode PAY_PER_REQUEST \
-        --key-schema AttributeName=id,KeyType=HASH AttributeName=timestamp,KeyType=RANGE \
+        --key-schema AttributeName=id,KeyType=HASH \
         --attribute-definitions \
             AttributeName=id,AttributeType=S \
-            AttributeName=timestamp,AttributeType=S \
-            AttributeName=ip,AttributeType=S \
+            AttributeName=title,AttributeType=S \
         --global-secondary-indexes \
-            "IndexName=IpIndex,KeySchema=[{AttributeName=ip,KeyType=HASH}],Projection={ProjectionType=ALL}"
+            "IndexName=IpIndex,KeySchema=[{AttributeName=title,KeyType=HASH}],Projection={ProjectionType=ALL}"
 
-read-table:
+
+read:
     #!/usr/bin/env bash
     source {{justfile_directory()}}/.env.local
     aws dynamodb scan \
         --region $DYNAMODB_REGION \
         --table-name $DYNAMODB_TABLE \
-        --endpoint-url http://localhost:8000
+        --endpoint-url $LOCAL_DYNAMODB_ENDPOINT
 
+
+
+# aws dynamodb put-item \
+#     --endpoint-url http://localhost:8000 \
+#     --region local \
+#     --table-name stateful_aws_api_tasks \
+#     --item '{
+#         "id": {"S": "1"},
+#         "title": {"S": "Example Task"},
+#         "description": {"S": "This is an example task description."},
+#         "completed": {"BOOL": false}
+#     }'

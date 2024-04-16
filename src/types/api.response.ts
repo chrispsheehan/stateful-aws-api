@@ -1,4 +1,4 @@
 export interface APIResponse {
-    statusCode: number;
+    code: number;
     body: Record<string, any>;
 }

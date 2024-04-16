@@ -12,14 +12,14 @@ services:
    volumes:
      - "./docker/dynamodb:/home/dynamodblocal/data"
    working_dir: /home/dynamodblocal
- app:
-    depends_on:
-      - dynamodb-local
-    build: .
-    env_file: .env.local
-    container_name: app
-    ports:
-      - "9000:9000"
-    command:
-      node dist/app.local.js
+#  app:
+#     depends_on:
+#       - dynamodb-local
+#     build: .
+#     env_file: .env.local
+#     container_name: app
+#     ports:
+#       - "9000:9000"
+#     command:
+#       node dist/app.local.js
   

@@ -1,6 +1,6 @@
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
-import generalHandlers from './generalHandlers';
+import taskHandlers from './taskHandlers';
 
 const app = express();
 
@@ -10,15 +10,9 @@ app.get('/hello', (_req, res) => {
   res.status(200).json({msg: "Hello, this is your API"});
 });
 
-// Item: {
-//   id: newUuid,
-//   timestamp: new Date().toISOString(),
-//   ip: ip
-// }
-
 app
-  .route(`${basePath}/ip`)
-  .get(generalHandlers.getIp);
+  .route(`${basePath}/task`)
+  .put(taskHandlers.putTask);
 
 const server = awsServerlessExpress.createServer(app);
 
@@ -28,17 +22,6 @@ export const handler = (event: any, context: any) => {
 
 export default app;
 
-// // MongoDB connection
-// mongoose.connect('mongodb://localhost:27017/taskdb', { useNewUrlParser: true, useUnifiedTopology: true });
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-// // Task schema
-// const taskSchema = new mongoose.Schema({
-//   title: String,
-//   description: String,
-//   completed: Boolean
-// });
 
 // const Task = mongoose.model('Task', taskSchema);
 
