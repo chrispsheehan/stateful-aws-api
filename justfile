@@ -38,18 +38,6 @@ read:
         --endpoint-url $LOCAL_DYNAMODB_ENDPOINT
 
 
-# aws dynamodb put-item \
-#     --endpoint-url http://localhost:8000 \
-#     --region local \
-#     --table-name stateful_aws_api_tasks \
-#     --item '{
-#         "id": {"S": "1"},
-#         "title": {"S": "Example Task"},
-#         "description": {"S": "This is an example task description."},
-#         "completed": {"BOOL": false}
-#     }'
-
-
 # curl -X PUT \
 #   -H "Content-Type: application/json" \
 #   -d '{"title": "Example Title", "description": "Example Description"}' \
