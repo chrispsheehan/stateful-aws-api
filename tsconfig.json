@@ -17,7 +17,8 @@
     ],
     "exclude": [
       "node_modules",
-      "dist"
+      "dist",
+      "jest.config.json"
     ]
   }
   
