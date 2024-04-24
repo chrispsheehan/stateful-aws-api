@@ -31,7 +31,28 @@ dev:
     docker-compose up app-dev test-dev
 
 
+tf-apply:
+    #!/usr/bin/env bash
+    cd tf
+    terraform init
+    terraform apply \
+        -var lambda_zip_path={{justfile_directory()}}/dist/api.zip \
+
+deploy:
+  just build
+  just tf-apply
+
+
+destroy:
+    #!/usr/bin/env bash
+    cd tf
+    terraform init
+    terraform destroy \
+        -var lambda_zip_path={{justfile_directory()}}/dist/api.zip \
+
+
 # curl -X PUT \
 #   -H "Content-Type: application/json" \
 #   -d '{"title": "Example Title", "description": "Example Description"}' \
-#   http://localhost:9000/api/task
+#   https://6vsiezn4ob.execute-api.eu-west-2.amazonaws.com/prod/api/task
+
