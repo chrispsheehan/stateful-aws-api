@@ -18,25 +18,11 @@ clean:
     rm -f docker/dynamodb/shared-local-instance.db
 
 
-read:
-    #!/usr/bin/env bash
-    source {{justfile_directory()}}/.env.local
-    aws dynamodb scan \
-        --region $DYNAMODB_REGION \
-        --table-name $DYNAMODB_TABLE \
-        --endpoint-url $LOCAL_DYNAMODB_ENDPOINT
-
-
-start-static:
-    #!/usr/bin/env bash
-    just stop
-    docker-compose up --force-recreate app
-
-
 start:
     #!/usr/bin/env bash
     just stop
-    docker-compose up app-dev
+    just clean
+    docker-compose up --force-recreate app
 
 
 dev:
