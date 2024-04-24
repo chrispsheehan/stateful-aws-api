@@ -39,6 +39,12 @@ start:
     docker-compose up app-dev
 
 
+start-test:
+    #!/usr/bin/env bash
+    just stop
+    docker-compose up app-dev test-dev
+
+
 # curl -X PUT \
 #   -H "Content-Type: application/json" \
 #   -d '{"title": "Example Title", "description": "Example Description"}' \

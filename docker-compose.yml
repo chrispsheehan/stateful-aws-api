@@ -42,27 +42,37 @@ services:
     container_name: app
     ports:
       - "9000:9000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/hello"]
-      interval: 2s
-      timeout: 2s
-      retries: 3
 
   app-dev:
     depends_on:
       - setup
-    image: node:slim
+    image: node:alpine
     env_file: 
       - .env.local
     container_name: app-dev
     ports:
       - "9000:9000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --spider --tries=1 http://localhost:9000/hello || exit 1"]
+      interval: 10s
+      timeout: 2s
+      retries: 3
     volumes:
       - ./:/app
     working_dir: /app
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/hello"]
-      interval: 2s
-      timeout: 2s
-      retries: 3
     command: ["npx", "nodemon", "./src/app.local.ts"]
+
+
+  test-dev:
+    depends_on:
+      app-dev:
+        condition: service_healthy
+    image: node:slim
+    environment: 
+      - BASE_URL=http://app-dev:9000
+    container_name: test-dev
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: ["npx", "nodemon", "--watch", ".", "--ext", ".ts", "--exec", "npm", "test"]
+
