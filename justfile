@@ -54,5 +54,5 @@ destroy:
 # curl -X PUT \
 #   -H "Content-Type: application/json" \
 #   -d '{"title": "Example Title", "description": "Example Description"}' \
-#   https://6vsiezn4ob.execute-api.eu-west-2.amazonaws.com/prod/api/task
+#   https://pjkg1tdm9c.execute-api.eu-west-2.amazonaws.com/lambda/api/task
 
