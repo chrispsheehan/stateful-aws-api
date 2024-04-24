@@ -7,22 +7,6 @@ build:
     zip -r api.zip *
 
 
-run-local:
-    #!/usr/bin/env bash
-    source {{justfile_directory()}}/.env
-    API_PORT=$API_PORT \
-    DYNAMODB_REGION=$DYNAMODB_REGION \
-    DYNAMODB_TABLE=$DYNAMODB_TABLE \
-    DYNAMODB_ENDPOINT=$DYNAMODB_ENDPOINT \
-    npx ts-node ./src/app.local.ts
-
-
-start:
-    #!/usr/bin/env bash
-    just stop
-    docker-compose up --force-recreate
-
-
 stop:
     #!/usr/bin/env bash
     docker-compose down -v
@@ -41,6 +25,18 @@ read:
         --region $DYNAMODB_REGION \
         --table-name $DYNAMODB_TABLE \
         --endpoint-url $LOCAL_DYNAMODB_ENDPOINT
+
+
+start-static:
+    #!/usr/bin/env bash
+    just stop
+    docker-compose up --force-recreate app
+
+
+start:
+    #!/usr/bin/env bash
+    just stop
+    docker-compose up app-dev
 
 
 # curl -X PUT \
