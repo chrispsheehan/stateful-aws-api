@@ -27,3 +27,16 @@ data "aws_iam_policy_document" "api_lambda_policy" {
     ]
   }
 }
+
+data "aws_iam_policy_document" "api_gw" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    effect    = "Allow"
+    actions   = ["execute-api:Invoke"]
+    resources = ["${aws_api_gateway_rest_api.this.execution_arn}/*/*/*"]
+  }
+}
