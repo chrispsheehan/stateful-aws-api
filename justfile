@@ -39,7 +39,7 @@ start:
     docker-compose up app-dev
 
 
-start-test:
+dev:
     #!/usr/bin/env bash
     just stop
     docker-compose up app-dev test-dev
