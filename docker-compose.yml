@@ -41,3 +41,8 @@ services:
     container_name: app
     ports:
       - "9000:9000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/hello"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
