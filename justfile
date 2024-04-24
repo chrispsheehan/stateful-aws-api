@@ -26,6 +26,11 @@ start:
 stop:
     #!/usr/bin/env bash
     docker-compose down -v
+
+
+clean:
+    #!/usr/bin/env bash
+    just stop
     rm -f docker/dynamodb/shared-local-instance.db
 
 
