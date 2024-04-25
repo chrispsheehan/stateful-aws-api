@@ -1,7 +1,9 @@
 resource "aws_lambda_function" "lambda" {
-  filename      = var.lambda_zip_path
   function_name = local.lambda_name
   role          = aws_iam_role.lambda_execution_role.arn
+
+  filename         = var.lambda_zip_path
+  source_code_hash = filebase64sha256(var.lambda_zip_path)
   
   handler       = "app.handler"
   runtime       = "nodejs20.x"
@@ -38,17 +40,6 @@ resource "aws_dynamodb_table" "tasks" {
     read_capacity   = 5
     write_capacity  = 5
   }
-}
-
-resource "aws_s3_bucket" "lambda-bucket" {
-  bucket = local.lambda_bucket
-}
-
-resource "aws_s3_object" "lambda_zip" {
-  bucket        = aws_s3_bucket.lambda-bucket.id
-  key           = basename(var.lambda_zip_path)
-  source        = var.lambda_zip_path
-  force_destroy = true
 }
 
 resource "aws_iam_role" "lambda_execution_role" {
