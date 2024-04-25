@@ -26,6 +26,11 @@ start:
     docker-compose up --force-recreate app
 
 
+test:
+    #!/usr/bin/env bash
+    docker-compose run --build test
+
+
 dev:
     #!/usr/bin/env bash
     just stop

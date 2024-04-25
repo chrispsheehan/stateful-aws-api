@@ -11,6 +11,6 @@ beforeAll(() => {
 describe('/hello', () =>{
   test('is 200', async () =>{
     response = await request(baseUrl).get('/hello');
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(203);
   })
 })
