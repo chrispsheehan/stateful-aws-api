@@ -48,7 +48,7 @@ destroy:
     #!/usr/bin/env bash
     cd tf
     terraform init
-    terraform destroy \
+    terraform destroy -auto-approve \
         -var lambda_zip_path={{justfile_directory()}}/dist/api.zip \
 
 
