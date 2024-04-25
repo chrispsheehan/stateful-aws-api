@@ -1,5 +1,6 @@
 build:
     #!/usr/bin/env bash
+    npm i
     npx tsc
     cp -r node_modules dist/node_modules
     cd dist
