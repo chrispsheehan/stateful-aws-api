@@ -31,4 +31,4 @@ jobs:
 
       - name: build
         shell: bash
-        run: just destory
+        run: just destroy
