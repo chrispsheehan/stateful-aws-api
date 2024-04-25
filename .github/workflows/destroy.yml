@@ -13,7 +13,7 @@ env:
   aws_role: ${{ vars.AWS_ROLE }}
 
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -29,6 +29,6 @@ jobs:
             role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
             role-session-name: GitHubActions
 
-      - name: build
+      - name: destroy
         shell: bash
         run: just destroy
