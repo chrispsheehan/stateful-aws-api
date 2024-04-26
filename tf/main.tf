@@ -4,16 +4,16 @@ resource "aws_lambda_function" "lambda" {
 
   filename         = var.lambda_zip_path
   source_code_hash = filebase64sha256(var.lambda_zip_path)
-  
-  handler       = "app.handler"
-  runtime       = "nodejs20.x"
-  timeout       = 10
+
+  handler = "app.handler"
+  runtime = "nodejs20.x"
+  timeout = 10
 
   environment {
     variables = {
-      DYNAMODB_REGION       = var.region
-      DYNAMODB_TABLE        = local.dynamodb_table_name
-      DYNAMODB_ENDPOINT     = local.dynamodb_endpoint
+      AWS_REGION        = var.region
+      DYNAMODB_TABLE    = local.dynamodb_table_name
+      DYNAMODB_ENDPOINT = local.dynamodb_endpoint
     }
   }
 }
@@ -32,7 +32,7 @@ resource "aws_dynamodb_table" "tasks" {
     name = "title"
     type = "S"
   }
- 
+
   global_secondary_index {
     name            = "title_index"
     hash_key        = "title"
@@ -53,7 +53,7 @@ resource "aws_iam_policy" "lambda_execution_iam_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  depends_on = [ aws_dynamodb_table.tasks ]
+  depends_on = [aws_dynamodb_table.tasks]
   role       = aws_iam_role.lambda_execution_role.name
   policy_arn = aws_iam_policy.lambda_execution_iam_policy.arn
 }

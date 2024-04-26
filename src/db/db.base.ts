@@ -2,7 +2,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
 const dynamodb_table: string = process.env.DYNAMODB_TABLE;
-const dynamodb_region: string = process.env.DYNAMODB_REGION;
+const dynamodb_region: string = process.env.AWS_REGION;
 const dynamodb_endpoint: string = process.env.DYNAMODB_ENDPOINT;
 
 if (!dynamodb_table) {
@@ -10,7 +10,7 @@ if (!dynamodb_table) {
 }
 
 if (!dynamodb_region) {
-  throw new Error("DYNAMODB_REGION is missing or empty.");
+  throw new Error("AWS_REGION is missing or empty.");
 }
 
 if (!dynamodb_endpoint) {

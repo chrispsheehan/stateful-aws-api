@@ -17,13 +17,13 @@ data "aws_iam_policy_document" "api_lambda_policy" {
   statement {
     effect = "Allow"
     actions = [
-        "dynamodb:GetItem",
-        "dynamodb:PutItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:Scan"
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:Scan"
     ]
     resources = [
-        aws_dynamodb_table.tasks.arn
+      aws_dynamodb_table.tasks.arn
     ]
   }
 }

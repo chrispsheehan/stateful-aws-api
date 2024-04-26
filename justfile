@@ -28,7 +28,8 @@ start:
 
 test:
     #!/usr/bin/env bash
-    docker-compose run --build test
+    docker-compose build
+    docker-compose run test
 
 
 dev:
