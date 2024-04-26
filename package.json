@@ -1,7 +1,7 @@
 {
     "scripts": {
         "test": "jest",
-        "ci-test": "npm i & npm test"
+        "ci-test": "npm i jest & npm test"
     },
     "dependencies": {
         "@aws-sdk/client-dynamodb": "^3.540.0",
