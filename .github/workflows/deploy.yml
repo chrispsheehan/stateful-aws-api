@@ -16,7 +16,22 @@ env:
   aws_role: ${{ vars.AWS_ROLE }}
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: extractions/setup-just@v1
+
+      - name: test
+        shell: bash
+        run: just test
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: checkout
