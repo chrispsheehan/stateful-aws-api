@@ -24,10 +24,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: extractions/setup-just@v1
-
       - name: test
-        shell: bash
         run: |
           docker-compose build
           docker-compose run test
