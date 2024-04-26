@@ -11,7 +11,7 @@ resource "aws_lambda_function" "lambda" {
 
   environment {
     variables = {
-      AWS_REGION        = var.region
+      DYNAMODB_AWS_REGION        = var.region
       DYNAMODB_TABLE    = local.dynamodb_table_name
       DYNAMODB_ENDPOINT = local.dynamodb_endpoint
     }
