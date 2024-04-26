@@ -28,7 +28,9 @@ jobs:
 
       - name: test
         shell: bash
-        run: docker-compose run test
+        run: |
+          docker-compose build
+          docker-compose run test
 
   deploy:
     needs: test
