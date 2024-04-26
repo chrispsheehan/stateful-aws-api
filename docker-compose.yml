@@ -56,7 +56,7 @@ services:
     volumes:
       - ./:/app
     working_dir: /app
-    command: ["npm", "test"]
+    command: ["npm", "run", "ci-test"]
 
   app-dev:
     depends_on:
