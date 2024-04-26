@@ -24,10 +24,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: extractions/setup-just@v2
+
       - name: test
-        run: |
-          docker-compose build
-          docker-compose run test
+        shell: bash
+        run: just test
 
   deploy:
     needs: test
@@ -38,7 +39,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
