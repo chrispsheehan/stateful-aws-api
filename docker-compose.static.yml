@@ -3,10 +3,10 @@ services:
   app:
     depends_on:
       - setup
-    image: node:alpine
+    build: .
     env_file: 
       - .env.local
-    container_name: app-dev
+    container_name: app
     ports:
       - "9000:9000"
     healthcheck:
@@ -14,10 +14,6 @@ services:
       interval: 10s
       timeout: 2s
       retries: 3
-    volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["npx", "nodemon", "./src/app.local.ts"]
 
   test:
     depends_on:
@@ -25,10 +21,9 @@ services:
         condition: service_healthy
     image: node:slim
     environment: 
-      - BASE_URL=http://app-dev:9000
-    container_name: test-dev
+      - BASE_URL=http://app:9000
+    container_name: test
     volumes:
       - ./:/app
     working_dir: /app
-    command: ["npx", "nodemon", "--watch", ".", "--ext", ".ts", "--exec", "npm", "test"]
-
+    command: ["npm", "run", "ci-test"]
