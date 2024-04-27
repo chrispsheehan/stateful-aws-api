@@ -7,6 +7,7 @@ build:
     rm -f api.zip
     zip -r api.zip *
 
+
 clean:
     #!/usr/bin/env bash
     rm -f docker/dynamodb/shared-local-instance.db

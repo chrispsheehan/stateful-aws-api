@@ -1,5 +1,8 @@
 # stateful-aws-api
 
+Test AWS lambda locally while developing!
+
+
 ## local dev
 
 ### `just dev`: local development environment
@@ -31,4 +34,31 @@ app-dev   | [nodemon] starting `ts-node ./src/app.local.ts`
 
 ```sh
 app  | LOCAL app listening on http://localhost:9000
+```
+
+### `just test`: test static environment
+
+```sh
+ PASS  __tests__/hello.test.ts
+  /hello
+    ✓ is 200 (15 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.82 s
+```
+
+## deploy
+
+Done via terraform. Required access below (this repo uses [OIDC](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect))
+
+```json
+[
+    "dynamodb:*", 
+    "s3:*", 
+    "lambda:*", 
+    "apigateway:*", 
+    "iam:*"
+]
 ```
