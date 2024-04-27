@@ -1,41 +1,33 @@
 build:
     #!/usr/bin/env bash
-    npm i
+    npm i --omit=dev
     npx tsc
     cp -r node_modules dist/node_modules
     cd dist
     rm -f api.zip
     zip -r api.zip *
 
-
-stop:
-    #!/usr/bin/env bash
-    docker-compose down -v
-
-
 clean:
     #!/usr/bin/env bash
-    just stop
     rm -f docker/dynamodb/shared-local-instance.db
 
 
 start:
     #!/usr/bin/env bash
-    just stop
     just clean
-    docker-compose up --force-recreate app
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --force-recreate app
 
 
 test:
     #!/usr/bin/env bash
+    just clean
     docker-compose build
-    docker-compose run test
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml run test
 
 
 dev:
     #!/usr/bin/env bash
-    just stop
-    docker-compose up app-dev test-dev
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.yml up app test
 
 
 tf-apply:
