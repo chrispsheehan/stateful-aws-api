@@ -12,7 +12,7 @@ COPY ./tsconfig.json /app/tsconfig.json
 ENV NODE_ENV=production
 
 # Installing dependencies
-RUN npm install
+RUN npm install --omit=dev
 RUN npm install ts-node
 
 # Exposing server port
