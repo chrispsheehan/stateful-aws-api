@@ -15,6 +15,10 @@ app.put('/api/task', (_req, res) => {
   taskHandlers.putTask(_req, res);
 });
 
+app.get('/api/task', (_req, res) => { 
+  taskHandlers.getTask(_req, res);
+});
+
 const server = awsServerlessExpress.createServer(app);
 
 export const handler = (event: any, context: any) => {

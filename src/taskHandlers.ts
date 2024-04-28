@@ -27,6 +27,19 @@ const putTask = async (req: Request, res: Response) => {
     return res.status(response.code).json(response.body);
 }
 
+const getTask = async (req: Request, res: Response) => {
+    const client = new DBClient();
+
+    let response: APIResponse;
+
+    response = await client.get({});
+
+    client.close();
+
+    return res.status(response.code).json(response.body);
+}
+
 export default {
-    putTask
+    putTask,
+    getTask
 };
