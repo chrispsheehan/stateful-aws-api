@@ -8,9 +8,10 @@ beforeAll(() => {
   baseUrl = process.env.BASE_URL || "";
 });
 
-describe('/hello', () =>{
+describe('GET /hello', () =>{
   test('is 200', async () =>{
-    response = await request(baseUrl).get('/hello');
+    response = await request(baseUrl)
+      .get('/hello');
     expect(response.status).toBe(200);
   })
 })
