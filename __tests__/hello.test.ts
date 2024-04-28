@@ -11,7 +11,9 @@ beforeAll(() => {
 describe('GET /hello', () =>{
   test('is 200', async () =>{
     response = await request(baseUrl)
-      .get('/hello');
+      .get('/hello')
+      .send({})
+      .set('Content-Type', 'application/json');
     expect(response.status).toBe(200);
   })
 })

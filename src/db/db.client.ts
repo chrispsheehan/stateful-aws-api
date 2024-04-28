@@ -20,7 +20,7 @@ export class DBClient extends DBBase {
       console.log("New item added:", params.Item);
 
       const resp = {
-        code: 200,
+        code: 204,
         body: item
       }
 

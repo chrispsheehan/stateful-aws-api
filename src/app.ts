@@ -11,9 +11,9 @@ app.get('/hello', (_req, res) => {
   res.status(200).json({msg: "Hello, this is your API"});
 });
 
-app
-  .route(`${basePath}/task`)
-  .put(taskHandlers.putTask);
+app.put('/api/task', (_req, res) => { 
+  taskHandlers.putTask(_req, res);
+});
 
 const server = awsServerlessExpress.createServer(app);
 

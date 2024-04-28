@@ -10,6 +10,7 @@ build:
 
 clean:
     #!/usr/bin/env bash
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml  -f docker-compose.yml -v down
     rm -f docker/dynamodb/shared-local-instance.db
 
 
@@ -28,6 +29,7 @@ test:
 
 dev:
     #!/usr/bin/env bash
+    just clean
     docker-compose -f docker-compose.dynamodb.yml -f docker-compose.yml up app test
 
 
@@ -51,8 +53,22 @@ destroy:
         -var lambda_zip_path={{justfile_directory()}}/dist/api.zip \
 
 
+# aws dynamodb scan --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
+
+
+# aws dynamodb put-item \
+#   --table-name stateful_aws_api_tasks \
+#   --item '{
+#     "id": {"S": "1"},
+#     "title": {"S": "Example Title"},
+#     "description": {"S": "Example Description"}
+#   }' \
+#   --endpoint-url http://localhost:8000 \
+#   --region local
+
+
 # curl -X PUT \
 #   -H "Content-Type: application/json" \
 #   -d '{"title": "Example Title", "description": "Example Description"}' \
-#   https://pjkg1tdm9c.execute-api.eu-west-2.amazonaws.com/lambda/api/task
+#   http://localhost:9000/api/task
 

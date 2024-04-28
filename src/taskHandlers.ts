@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { APIResponse } from './types/api.response';
 import { v4 as uuidv4 } from 'uuid';
 
-async function putTask(req: Request, res: Response) {
+const putTask = async (req: Request, res: Response) => {
     const client = new DBClient();
 
     const newUuid = uuidv4();
