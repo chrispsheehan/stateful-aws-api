@@ -64,3 +64,25 @@ jobs:
           echo "URL=$URL"
           echo "URL=$URL" >> $GITHUB_ENV
 
+  clean:
+    if: always()
+    needs:
+      - deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: extractions/setup-just@v2
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+            aws-region: ${{ env.aws_region }}
+            role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
+            role-session-name: GitHubActions
+  
+      - name: destroy
+        shell: bash
+        run: just destroy
