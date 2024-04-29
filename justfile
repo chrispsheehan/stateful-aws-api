@@ -10,25 +10,21 @@ build:
 
 clean:
     #!/usr/bin/env bash
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml  -f docker-compose.yml -v down
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml  -f docker-compose.yml -v down --remove-orphans
     rm -f docker/dynamodb/shared-local-instance.db
-
-
-start:
-    #!/usr/bin/env bash
-    just clean
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --force-recreate app
 
 
 test:
     #!/usr/bin/env bash
+    npm i
     just clean
-    docker-compose build
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml run test
+    docker-compose  -f docker-compose.dynamodb.yml -f docker-compose.static.yml build --no-cache
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --force-recreate --exit-code-from test app test
 
 
 dev:
     #!/usr/bin/env bash
+    npm i
     just clean
     docker-compose -f docker-compose.dynamodb.yml -f docker-compose.yml up app test
 
@@ -71,4 +67,3 @@ destroy:
 #   -H "Content-Type: application/json" \
 #   -d '{"title": "Example Title", "description": "Example Description"}' \
 #   http://localhost:9000/api/task
-

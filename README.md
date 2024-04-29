@@ -28,14 +28,6 @@ app-dev   | [nodemon] restarting due to changes...
 app-dev   | [nodemon] starting `ts-node ./src/app.local.ts`
 ```
 
-### `just start`: local static environment
-
-- wipes dynamodb local cache for completely fresh environment
-
-```sh
-app  | LOCAL app listening on http://localhost:9000
-```
-
 ### `just test`: test static environment
 
 ```sh
