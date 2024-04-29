@@ -8,7 +8,7 @@ beforeAll(() => {
   baseUrl = process.env.BASE_URL || "";
 });
 
-describe('PUT /api/task', async () =>{
+describe('PUT /api/task', () =>{
   test('is 400', async () =>{
     const newTask = {
       description: 'Example Description'
@@ -32,7 +32,7 @@ describe('PUT /api/task', async () =>{
       .put('/api/task')
       .send(newTask)
       .set('Content-Type', 'application/json');
-    console.log('test' + JSON.stringify(response));
+      console.log('test' + JSON.stringify(response));
     expect(response.status).toBe(204);
   })
 })
