@@ -49,8 +49,9 @@ destroy:
     #!/usr/bin/env bash
     cd tf
     terraform init
+    touch {{justfile_directory()}}/empty.zip
     terraform destroy -auto-approve \
-        -var lambda_zip_path={{justfile_directory()}}/dist/api.zip \
+        -var lambda_zip_path={{justfile_directory()}}/empty.zip \
 
 
 # aws dynamodb scan --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
