@@ -8,7 +8,7 @@ beforeAll(() => {
   baseUrl = process.env.BASE_URL || "";
 });
 
-describe('PUT /api/task', () =>{
+describe('PUT /api/task', async () =>{
   test('is 400', async () =>{
     const newTask = {
       description: 'Example Description'

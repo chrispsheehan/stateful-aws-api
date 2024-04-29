@@ -20,3 +20,16 @@ services:
         condition: service_healthy
     image: node:slim
     command: ["echo", "ok"]
+
+  # test:
+  #   depends_on:
+  #     app:
+  #       condition: service_healthy
+  #   image: node:slim
+  #   environment: 
+  #     - BASE_URL=http://localhost:9000
+  #   container_name: test
+  #   volumes:
+  #     - ./:/app
+  #   working_dir: /app
+  #   command: ["echo", "run", "ci-test"]

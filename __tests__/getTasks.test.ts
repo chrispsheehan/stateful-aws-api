@@ -8,7 +8,7 @@ beforeAll(() => {
   baseUrl = process.env.BASE_URL || "";
 });
 
-describe('GET /api/task', () =>{
+describe('GET /api/task', async () =>{
   test('is 200', async () =>{
     response = await request(baseUrl)
       .get('/api/task')
