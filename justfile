@@ -19,7 +19,10 @@ test:
     npm i
     just clean
     docker-compose  -f docker-compose.dynamodb.yml -f docker-compose.static.yml build --no-cache
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --build --force-recreate --exit-code-from test app test
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --build --force-recreate -d app test
+    BASE_URL=http://localhost:9000 npm test
+    just clean
+
 
 
 dev:
