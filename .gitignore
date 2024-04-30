@@ -6,3 +6,4 @@ docker
 .env
 .terraform
 *lock.hcl
+*.zip

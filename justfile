@@ -16,13 +16,9 @@ clean:
 
 test:
     #!/usr/bin/env bash
-    npm i
     just clean
-    docker-compose  -f docker-compose.dynamodb.yml -f docker-compose.static.yml build --no-cache
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --build --force-recreate -d app test
-    BASE_URL=http://localhost:9000 npm test
-    just clean
-
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml build --no-cache
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --exit-code-from test app test
 
 
 dev:
@@ -54,8 +50,12 @@ destroy:
         -var lambda_zip_path={{justfile_directory()}}/empty.zip \
 
 
-# aws dynamodb scan --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
+# docker run -p 9000:9000 --env-file=.env.local local:debug
 
+# do the below in ci - probs due to env files
+
+# aws dynamodb scan --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
+# aws dynamodb describe-table --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
 
 # aws dynamodb put-item \
 #   --table-name stateful_aws_api_tasks \
