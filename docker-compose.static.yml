@@ -1,12 +1,12 @@
 services:
-  app:
+  static-app:
     depends_on:
-      setup:
+      dynamodb-check:
         condition: service_completed_successfully
     build: .
     env_file: 
       - .env.local
-    container_name: app
+    container_name: static-app
     ports:
       - "9000:9000"
     healthcheck:
@@ -15,21 +15,14 @@ services:
       timeout: 2s
       retries: 3
 
-  # test:
-  #   depends_on:
-  #     app:
-  #       condition: service_healthy
-  #   image: node:slim
-  #   command: ["echo", "ok"]
-
-  test:
+  static-test:
     depends_on:
-      app:
+      static-app:
         condition: service_healthy
     image: node:slim
     environment: 
-      - BASE_URL=http://app:9000
-    container_name: test
+      - BASE_URL=http://static-app:9000
+    container_name: static-test
     volumes:
       - ./:/app
     working_dir: /app

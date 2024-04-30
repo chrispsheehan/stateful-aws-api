@@ -18,14 +18,15 @@ test:
     #!/usr/bin/env bash
     just clean
     docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml build --no-cache
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --exit-code-from test app test
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --exit-code-from static-test static-app static-test
+    just clean
 
 
 dev:
     #!/usr/bin/env bash
     npm i
     just clean
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.yml up app test
+    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.yml up dev-app dev-test
 
 
 tf-apply:

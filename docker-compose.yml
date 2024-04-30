@@ -1,11 +1,12 @@
 services:
-  app:
+  dev-app:
     depends_on:
-      - setup
+      dynamodb-check:
+        condition: service_completed_successfully
     image: node:alpine
     env_file: 
       - .env.local
-    container_name: app-dev
+    container_name: dev-app
     healthcheck:
       test: ["CMD-SHELL", "wget --quiet --spider --tries=1 http://localhost:9000/hello || exit 1"]
       interval: 10s
@@ -16,14 +17,14 @@ services:
     working_dir: /app
     command: ["npx", "nodemon", "./src/app.local.ts"]
 
-  test:
+  dev-test:
     depends_on:
-      app:
+      dev-app:
         condition: service_healthy
     image: node:slim
     environment: 
-      - BASE_URL=http://app-dev:9000
-    container_name: test-dev
+      - BASE_URL=http://dev-app:9000
+    container_name: dev-test
     volumes:
       - ./:/app
     working_dir: /app
