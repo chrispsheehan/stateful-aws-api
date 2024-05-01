@@ -60,7 +60,6 @@ jobs:
           BASE_URL: http://localhost:9000
         run: |
           sleep 5
-          cat ${GITHUB_WORKSPACE}/output.log
           curl http://localhost:9000/hello
       # - name: run app
       #   run: |
