@@ -43,18 +43,20 @@ jobs:
       - name: list table
         run: aws dynamodb list-tables --endpoint-url ${{ env.DYNAMODB_LOCAL_ENDPOINT }} --region ${{ env.DYNAMODB_LOCAL_AWS_REGION }}
 
-      - name: install
+      - name: install app
         run: npm install --omit=dev
 
-      - name: run
-        run: nohup npx ts-node src/app.local.ts > ${GITHUB_WORKSPACE}/output.log 2>&1 &
-
-      - name: test
+      - name: run app
         env:
           API_PORT: 9000
           DYNAMODB_AWS_REGION: ${{ env.DYNAMODB_LOCAL_AWS_REGION }}
           DYNAMODB_ENDPOINT: ${{ env.DYNAMODB_LOCAL_ENDPOINT }}
           DYNAMODB_TABLE: ${{ env.DYNAMODB_TABLE }}
+        run: nohup npx ts-node src/app.local.ts > ${GITHUB_WORKSPACE}/output.log 2>&1 &
+
+      - name: test
+        env:
+          BASE_URL: http://localhost:9000
         run: |
           sleep 5
           cat ${GITHUB_WORKSPACE}/output.log
