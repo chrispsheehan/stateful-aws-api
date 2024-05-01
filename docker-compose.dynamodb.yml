@@ -40,4 +40,4 @@ services:
       - .env
     container_name: dynamodb-check
     command:
-      dynamodb describe-table --endpoint-url http://dynamodb-local:8000 --region $DYNAMODB_AWS_REGIONxx --table-name $DYNAMODB_TABLE || exit 1
+      dynamodb describe-table --endpoint-url http://dynamodb-local:8000 --region $DYNAMODB_AWS_REGION --table-name $DYNAMODB_TABLE || exit 1
