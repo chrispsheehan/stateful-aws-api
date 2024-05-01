@@ -54,6 +54,7 @@ jobs:
           API_PORT: 9000
           DYNAMODB_AWS_REGION: ${{ env.DYNAMODB_LOCAL_AWS_REGION }}
           DYNAMODB_ENDPOINT: ${{ env.DYNAMODB_LOCAL_ENDPOINT }}
+          DYNAMODB_TABLE: ${{ env.DYNAMODB_TABLE }}
         run: |
           sleep 5
           cat ${GITHUB_WORKSPACE}/output.log
