@@ -113,4 +113,8 @@ jobs:
   
       - name: destroy
         shell: bash
-        run: just destroy
+        run: |
+          cd tf
+          terraform init
+          touch $GITHUB_WORKSPACE/empty.zip
+          terraform destroy -auto-approve -var lambda_zip_path=$GITHUB_WORKSPACE/empty.zip
