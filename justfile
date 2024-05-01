@@ -14,7 +14,7 @@ clean:
     rm -f docker/dynamodb/shared-local-instance.db
 
 
-dev:
+start:
     #!/usr/bin/env bash
     npm i
     just clean

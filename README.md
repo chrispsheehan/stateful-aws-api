@@ -5,7 +5,7 @@ Test AWS lambda locally while developing!
 
 ## local dev
 
-### `just dev`: local development environment
+### `just start`: local development environment
 
 - the below runs a [local instance of dynamodb](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html), the api and a test instance.
 - the app and test instance will automatically (live load) run on changes to any `.ts` files.
@@ -26,19 +26,6 @@ test-dev  | [nodemon] restarting due to changes...
 test-dev  | [nodemon] starting `npm test`
 app-dev   | [nodemon] restarting due to changes...
 app-dev   | [nodemon] starting `ts-node ./src/app.local.ts`
-```
-
-### `just test`: test static environment
-
-```sh
- PASS  __tests__/hello.test.ts
-  /hello
-    ✓ is 200 (15 ms)
-
-Test Suites: 1 passed, 1 total
-Tests:       1 passed, 1 total
-Snapshots:   0 total
-Time:        1.82 s
 ```
 
 ## deploy
