@@ -32,7 +32,7 @@ jobs:
       # - uses: extractions/setup-just@v2
 
       - name: test
-        shell: bash
+        # shell: bash
         env:
           AWS_PAGER: ""
           AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
@@ -42,7 +42,7 @@ jobs:
           DYNAMODB_ENDPOINT: http://dynamodb-local:8000
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml build --no-cache
+          # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml build --no-cache
           docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml up --exit-code-from static-test static-app static-test
           docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml logs static-app
           # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml --env-file ${GITHUB_WORKSPACE}/.env up -d
