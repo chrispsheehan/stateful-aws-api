@@ -21,6 +21,8 @@ services:
     depends_on:
       dev-app:
         condition: service_healthy
+      dynamodb-check:
+        condition: service_completed_successfully
     image: node:slim
     environment: 
       - BASE_URL=http://dev-app:9000
