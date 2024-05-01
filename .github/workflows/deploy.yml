@@ -24,6 +24,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Docker Compose
+        uses: docker/compose-cli@v1
+        with:
+          version: 2.27.0
+
       - uses: extractions/setup-just@v2
 
       - name: test
