@@ -53,7 +53,7 @@ jobs:
 
       - name: run app
         run: |
-          docker run -d -p 9000:9000 --env-file ${GITHUB_WORKSPACE}/.env ci:app
+          docker run -d -p 9000:9000 --network host --env-file ${GITHUB_WORKSPACE}/.env ci:app
 
       - name: test
         run: |
