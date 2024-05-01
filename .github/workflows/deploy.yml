@@ -88,7 +88,6 @@ jobs:
         shell: bash
         run: |
           cd tf
-
           URL=$(terraform output -raw url)
           echo "URL=$URL"
           echo "URL=$URL" >> $GITHUB_ENV
