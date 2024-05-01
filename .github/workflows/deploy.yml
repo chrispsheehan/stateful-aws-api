@@ -38,11 +38,17 @@ jobs:
           AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
           AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
           AWS_REGION: local
+          DYNAMODB_TABLE: stateful_aws_api_tasks
+          DYNAMODB_ENDPOINT: http://dynamodb-local:8000
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml --env-file ${GITHUB_WORKSPACE}/.env up -d
-          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml logs dynamodb-check
-          aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
+          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml build --no-cache
+          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml up -d --exit-code-from dynamodb-check
+          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.static.yml up --exit-code-from static-test static-app static-test
+
+          # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml --env-file ${GITHUB_WORKSPACE}/.env up -d
+          # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml logs dynamodb-check
+          # aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
 
   # deploy:
   #   needs: test
