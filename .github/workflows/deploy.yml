@@ -25,7 +25,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
       AWS_REGION: local
       DYNAMODB_TABLE: stateful_aws_api_tasks
-      DYNAMODB_ENDPOINT: http://dynamodb-local:8000
+      DYNAMODB_ENDPOINT: http://localhost:8000
     steps:
       - name: checkout
         uses: actions/checkout@v4
