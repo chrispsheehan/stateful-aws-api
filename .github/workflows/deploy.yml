@@ -51,12 +51,12 @@ jobs:
           # sleep 5
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
           echo lols
-          # docker run --rm \
-          #   -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
-          #   -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
-          #   -e AWS_DEFAULT_REGION=local \
-          #   amazon/aws-cli \
-          #   dynamodb list-tables --endpoint-url http://host.docker.internal:8000
+          docker run --rm \
+            -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
+            -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
+            -e AWS_DEFAULT_REGION=local \
+            amazon/aws-cli \
+            dynamodb list-tables --endpoint-url http://host.docker.internal:8000
 
 
       # - name: create db
