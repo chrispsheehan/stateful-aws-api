@@ -47,6 +47,18 @@ jobs:
         run: |
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
 
+      - name: build app
+        run: |
+          docker build . -t ci:app
+
+      - name: run app
+        run: |
+          docker run -d -p 8000:8000 --env-file ${GITHUB_WORKSPACE}/.env ci:app
+
+      - name: test
+        run: |
+          BASE_URL=http://localhost:9000 npm run ci:test
+
   # deploy:
   #   needs: test
   #   runs-on: ubuntu-latest
