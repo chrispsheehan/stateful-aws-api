@@ -57,7 +57,7 @@ jobs:
 
       - name: test
         run: |
-          curl http://localhost:9000/hello
+          curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9000/hello 2>/dev/null
           docker logs ci:app
           # BASE_URL=http://localhost:9000 npm run ci:test
 
