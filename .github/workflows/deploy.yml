@@ -39,12 +39,12 @@ jobs:
           sleep 5
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
           echo lols
-          docker run --rm \
+          docker run --network host --rm \
             -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e AWS_DEFAULT_REGION=local \
             amazon/aws-cli \
-            dynamodb list-tables --endpoint-url http://localhost:8000
+            dynamodb list-tables --endpoint-url host.docker.internal:8000
 
       # - name: create db
       #   run: |
