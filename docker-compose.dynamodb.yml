@@ -25,6 +25,13 @@ services:
       dynamodb-local:
         condition: service_healthy
     image: amazon/aws-cli
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - 'dynamodb describe-table --endpoint-url http://dynamodb-local:8000 --region $DYNAMODB_AWS_REGION --table-name $DYNAMODB_TABLE || exit 1'
+      interval: 1s
+      timeout: 2s
+      retries: 10
     env_file:
       - .env
     container_name: dynamodb-setup
