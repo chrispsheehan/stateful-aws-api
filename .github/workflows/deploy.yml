@@ -52,7 +52,8 @@ jobs:
           DYNAMODB_AWS_REGION: ${{ env.DYNAMODB_LOCAL_AWS_REGION }}
           DYNAMODB_ENDPOINT: ${{ env.DYNAMODB_LOCAL_ENDPOINT }}
           DYNAMODB_TABLE: ${{ env.DYNAMODB_TABLE }}
-        run: npx ts-node src/app.local.ts
+        run: npx ts-node src/app.local.ts &
+        # run: npx ts-node src/app.local.ts > ${GITHUB_WORKSPACE}/output.log 2>&1 &
 
       - name: test
         env:
