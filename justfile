@@ -16,7 +16,8 @@ clean:
 
 start-db:
     #!/usr/bin/env bash
-    just clean
+    docker-compose -f docker-compose.dynamodb.yml -v down --remove-orphans
+    rm -f docker/dynamodb/shared-local-instance.db
     docker-compose -f docker-compose.dynamodb.yml -f build --no-cache
     docker-compose -f docker-compose.dynamodb.yml up -d
     aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
