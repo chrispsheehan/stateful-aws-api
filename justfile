@@ -55,6 +55,7 @@ destroy:
 
 # do the below in ci - probs due to env files
 
+# aws dynamodb create-table --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000 --billing-mode PAY_PER_REQUEST --key-schema AttributeName=id,KeyType=HASH --attribute-definitions AttributeName=id,AttributeType=S AttributeName=title,AttributeType=S --global-secondary-indexes "IndexName=IpIndex,KeySchema=[{AttributeName=title,KeyType=HASH}],Projection={ProjectionType=ALL}"
 # aws dynamodb scan --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
 # aws dynamodb describe-table --table-name stateful_aws_api_tasks --region local --endpoint-url http://localhost:8000
 

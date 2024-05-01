@@ -4,13 +4,8 @@ services:
       dynamodb-check:
         condition: service_completed_successfully
     image: node:alpine
-    environment:
-      - DYNAMODB_TABLE=stateful_aws_api_tasks
-      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
-      - DYNAMODB_AWS_REGION=local
-      - AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE
-      - AWS_SECRET_ACCESS_KEY=DUMMYEXAMPLEKEY
-      - API_PORT=9000
+    env_file:
+      - .env
     container_name: dev-app
     healthcheck:
       test: ["CMD-SHELL", "wget --quiet --spider --tries=1 http://localhost:9000/hello || exit 1"]

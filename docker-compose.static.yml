@@ -4,13 +4,8 @@ services:
       dynamodb-check:
         condition: service_completed_successfully
     build: .
-    environment:
-      - DYNAMODB_TABLE=stateful_aws_api_tasks
-      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
-      - DYNAMODB_AWS_REGION=local
-      - API_PORT=9000
-      - AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE
-      - AWS_SECRET_ACCESS_KEY=DUMMYEXAMPLEKEY
+    env_file:
+      - .env
     container_name: static-app
     ports:
       - "9000:9000"
