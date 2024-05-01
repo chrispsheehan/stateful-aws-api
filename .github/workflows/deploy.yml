@@ -52,7 +52,9 @@ jobs:
       - name: test
         env:
           API_PORT: 9000
-        run: curl http://localhost:9000/hello
+        run: |
+          sleep 5
+          curl http://localhost:9000/hello
       # - name: run app
       #   run: |
       #     docker run -d -p 9000:9000 --network host --env-file ${GITHUB_WORKSPACE}/.env ci:app
