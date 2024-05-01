@@ -28,7 +28,9 @@ jobs:
 
       - name: test
         shell: bash
-        run: just test
+        run: |
+          cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
+          just test
 
   deploy:
     needs: test
