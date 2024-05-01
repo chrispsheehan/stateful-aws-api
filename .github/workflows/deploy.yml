@@ -21,8 +21,6 @@ env:
   AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
   AWS_SECRET_ACCESS_KEY: DUMMYIDEXAMPLE
 
-
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -81,7 +79,10 @@ jobs:
   
       - name: tf-apply
         shell: bash
-        run: just tf-apply
+        run: |
+          cd tf
+          terraform init
+          terraform apply -auto-approve -var lambda_zip_path=$GITHUB_WORKSPACE/dist/api.zip
 
       - name: tf-set-envs
         shell: bash
