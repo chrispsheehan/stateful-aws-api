@@ -35,16 +35,21 @@ jobs:
       - name: run db
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          docker run --network host -d -p 8000:8000 amazon/dynamodb-local
+          docker run -d -p 8000:8000 \
+            -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
+            -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
+            -e AWS_DEFAULT_REGION=local \
+            amazon/dynamodb-local
           sleep 5
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
           echo lols
-          docker run --network host --rm \
-            -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-            -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+          docker run --rm \
+            -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
+            -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
             -e AWS_DEFAULT_REGION=local \
             amazon/aws-cli \
             dynamodb list-tables --endpoint-url http://host.docker.internal:8000
+
 
       # - name: create db
       #   run: |
