@@ -26,6 +26,14 @@ jobs:
       AWS_REGION: local
       DYNAMODB_TABLE: stateful_aws_api_tasks
       DYNAMODB_ENDPOINT: http://host.docker.internal:8000
+
+    services:
+      dynamodb-local:
+        image: "amazon/dynamodb-local:latest"
+        ports:
+          - "8000:8000"
+        options: --health-cmd="curl -s -o /dev/null -I -w "%{http_code}" http://localhost:8000 | grep -q 400 || exit 1" --health-interval=1s --health-timeout=2s --health-retries=10
+    
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -34,21 +42,21 @@ jobs:
 
       - name: run db
         run: |
-          cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          docker run -d -p 8000:8000 \
-            -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
-            -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
-            -e AWS_DEFAULT_REGION=local \
-            amazon/dynamodb-local
-          sleep 5
+          # cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
+          # docker run -d -p 8000:8000 \
+          #   -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
+          #   -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
+          #   -e AWS_DEFAULT_REGION=local \
+          #   amazon/dynamodb-local
+          # sleep 5
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
           echo lols
-          docker run --rm \
-            -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
-            -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
-            -e AWS_DEFAULT_REGION=local \
-            amazon/aws-cli \
-            dynamodb list-tables --endpoint-url http://host.docker.internal:8000
+          # docker run --rm \
+          #   -e AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE \
+          #   -e AWS_SECRET_ACCESS_KEY=DUMMYIDEXAMPLE \
+          #   -e AWS_DEFAULT_REGION=local \
+          #   amazon/aws-cli \
+          #   dynamodb list-tables --endpoint-url http://host.docker.internal:8000
 
 
       # - name: create db
