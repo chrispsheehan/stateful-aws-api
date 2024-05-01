@@ -14,12 +14,21 @@ clean:
     rm -f docker/dynamodb/shared-local-instance.db
 
 
+start-db:
+    #!/usr/bin/env bash
+    just clean
+    docker-compose -f docker-compose.dynamodb.yml -f build --no-cache
+    docker-compose -f docker-compose.dynamodb.yml up -d
+    aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
+
+
 test:
     #!/usr/bin/env bash
     just clean
     docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml build --no-cache
-    docker-compose -f docker-compose.dynamodb.yml -f docker-compose.static.yml up --exit-code-from static-test dynamodb-check static-app static-test
-    just clean
+    docker-compose -f docker-compose.dynamodb.yml up -d --exit-code-from dynamodb-check
+    docker-compose -f docker-compose.static.yml up --exit-code-from static-test static-app static-test
+    # just clean
 
 
 dev:
