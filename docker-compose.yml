@@ -41,6 +41,8 @@ services:
     image: node:alpine
     env_file:
       - .env
+    environment:
+      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
     container_name: app
     healthcheck:
       test: ["CMD-SHELL", "wget --quiet --spider --tries=1 http://localhost:9000/hello || exit 1"]
