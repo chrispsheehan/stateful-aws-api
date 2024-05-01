@@ -36,6 +36,7 @@ jobs:
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
           docker run -d -p 8000:8000 amazon/dynamodb-local
+          sleep 5
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
 
       - name: create db
