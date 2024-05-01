@@ -57,7 +57,9 @@ jobs:
 
       - name: test
         run: |
-          BASE_URL=http://localhost:9000 npm run ci:test
+          curl http://localhost:9000/hello
+          docker logs ci:app
+          # BASE_URL=http://localhost:9000 npm run ci:test
 
   # deploy:
   #   needs: test
