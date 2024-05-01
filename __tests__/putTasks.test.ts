@@ -18,7 +18,6 @@ describe('PUT /api/task', () =>{
       .put('/api/task')
       .send(newTask)
       .set('Content-Type', 'application/json');
-    console.log('test' + JSON.stringify(response));
     expect(response.status).toBe(400);
   })
 
@@ -32,7 +31,6 @@ describe('PUT /api/task', () =>{
       .put('/api/task')
       .send(newTask)
       .set('Content-Type', 'application/json');
-      console.log('test' + JSON.stringify(response));
     expect(response.status).toBe(204);
   })
 })
