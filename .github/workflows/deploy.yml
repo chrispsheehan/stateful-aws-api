@@ -43,8 +43,8 @@ jobs:
       - name: list table
         run: aws dynamodb list-tables --endpoint-url ${{ env.DYNAMODB_LOCAL_ENDPOINT }} --region ${{ env.DYNAMODB_LOCAL_AWS_REGION }}
 
-      - name: install app
-        run: npm install --omit=dev
+      - name: install deps
+        run: npm install
 
       - name: run app
         env:
