@@ -53,77 +53,65 @@ jobs:
           DYNAMODB_ENDPOINT: ${{ env.DYNAMODB_LOCAL_ENDPOINT }}
           DYNAMODB_TABLE: ${{ env.DYNAMODB_TABLE }}
         run: npx ts-node src/app.local.ts &
-        # run: npx ts-node src/app.local.ts > ${GITHUB_WORKSPACE}/output.log 2>&1 &
 
       - name: test
         env:
           BASE_URL: http://localhost:9000
+        run: npx jest --runInBand
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: extractions/setup-just@v2
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+            aws-region: ${{ env.aws_region }}
+            role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
+            role-session-name: GitHubActions
+
+      - name: build
+        shell: bash
+        run: just build
+  
+      - name: tf-apply
+        shell: bash
+        run: just tf-apply
+
+      - name: tf-set-envs
+        shell: bash
         run: |
-          sleep 5
-          curl http://localhost:9000/hello
-      # - name: run app
-      #   run: |
-      #     docker run -d -p 9000:9000 --network host --env-file ${GITHUB_WORKSPACE}/.env ci:app
+          cd tf
 
-      # - name: test
-      #   run: |
-      #     curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9000/hello 2>/dev/null
-      #     docker logs ci:app
-      #     # BASE_URL=http://localhost:9000 npm run ci:test
+          URL=$(terraform output -raw url)
+          echo "URL=$URL"
+          echo "URL=$URL" >> $GITHUB_ENV
 
-  # deploy:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
+  clean:
+    if: always()
+    needs:
+      - deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-  #     - uses: extractions/setup-just@v2
+      - uses: extractions/setup-just@v2
 
-  #     - uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #           aws-region: ${{ env.aws_region }}
-  #           role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
-  #           role-session-name: GitHubActions
-
-  #     - name: build
-  #       shell: bash
-  #       run: just build
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+            aws-region: ${{ env.aws_region }}
+            role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
+            role-session-name: GitHubActions
   
-  #     - name: tf-apply
-  #       shell: bash
-  #       run: just tf-apply
-
-  #     - name: tf-set-envs
-  #       shell: bash
-  #       run: |
-  #         cd tf
-
-  #         URL=$(terraform output -raw url)
-  #         echo "URL=$URL"
-  #         echo "URL=$URL" >> $GITHUB_ENV
-
-  # clean:
-  #   if: always()
-  #   needs:
-  #     - deploy
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-
-  #     - uses: extractions/setup-just@v2
-
-  #     - uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #           aws-region: ${{ env.aws_region }}
-  #           role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
-  #           role-session-name: GitHubActions
-  
-  #     - name: destroy
-  #       shell: bash
-  #       run: just destroy
+      - name: destroy
+        shell: bash
+        run: just destroy
