@@ -17,6 +17,8 @@ services:
       interval: 1s
       timeout: 2s
       retries: 10
+    ports:
+      - "8000:8000"
 
   dynamodb-setup:
     depends_on:
