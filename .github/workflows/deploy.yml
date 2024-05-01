@@ -42,7 +42,7 @@ jobs:
           DYNAMODB_ENDPOINT: http://dynamodb-local:8000
         run: |
           # cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          docker run -p 8000:8000 amazon/dynamodb-local
+          docker run -d -p 8000:8000 amazon/dynamodb-local
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
           # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml build --no-cache
           # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml up --build --exit-code-from static-test static-app static-test
