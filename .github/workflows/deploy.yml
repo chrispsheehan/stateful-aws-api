@@ -47,13 +47,16 @@ jobs:
         run: npm install --omit=dev
 
       - name: run
-        run: nohup npx ts-node src/app.local.ts &
+        run: nohup npx ts-node src/app.local.ts > ${GITHUB_WORKSPACE}/output.log 2>&1 &
 
       - name: test
         env:
           API_PORT: 9000
+          DYNAMODB_AWS_REGION: ${{ env.DYNAMODB_LOCAL_AWS_REGION }}
+          DYNAMODB_ENDPOINT: ${{ env.DYNAMODB_LOCAL_ENDPOINT }}
         run: |
           sleep 5
+          cat ${GITHUB_WORKSPACE}/output.log
           curl http://localhost:9000/hello
       # - name: run app
       #   run: |
