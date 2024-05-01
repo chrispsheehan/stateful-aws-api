@@ -35,61 +35,62 @@ jobs:
         shell: bash
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          just start-db
+          docker-compose -f docker-compose.dynamodb.yml up -d
+          aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - uses: extractions/setup-just@v2
+  #     - uses: extractions/setup-just@v2
 
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-            aws-region: ${{ env.aws_region }}
-            role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
-            role-session-name: GitHubActions
+  #     - uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #           aws-region: ${{ env.aws_region }}
+  #           role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
+  #           role-session-name: GitHubActions
 
-      - name: build
-        shell: bash
-        run: just build
+  #     - name: build
+  #       shell: bash
+  #       run: just build
   
-      - name: tf-apply
-        shell: bash
-        run: just tf-apply
+  #     - name: tf-apply
+  #       shell: bash
+  #       run: just tf-apply
 
-      - name: tf-set-envs
-        shell: bash
-        run: |
-          cd tf
+  #     - name: tf-set-envs
+  #       shell: bash
+  #       run: |
+  #         cd tf
 
-          URL=$(terraform output -raw url)
-          echo "URL=$URL"
-          echo "URL=$URL" >> $GITHUB_ENV
+  #         URL=$(terraform output -raw url)
+  #         echo "URL=$URL"
+  #         echo "URL=$URL" >> $GITHUB_ENV
 
-  clean:
-    if: always()
-    needs:
-      - deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # clean:
+  #   if: always()
+  #   needs:
+  #     - deploy
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - uses: extractions/setup-just@v2
+  #     - uses: extractions/setup-just@v2
 
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-            aws-region: ${{ env.aws_region }}
-            role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
-            role-session-name: GitHubActions
+  #     - uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #           aws-region: ${{ env.aws_region }}
+  #           role-to-assume: arn:aws:iam::${{ env.aws_account_id }}:role/${{ env.aws_role }}
+  #           role-session-name: GitHubActions
   
-      - name: destroy
-        shell: bash
-        run: just destroy
+  #     - name: destroy
+  #       shell: bash
+  #       run: just destroy
