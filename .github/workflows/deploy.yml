@@ -35,7 +35,7 @@ jobs:
         shell: bash
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
-          docker-compose -f docker-compose.dynamodb.yml up -d
+          docker-compose -f docker-compose.dynamodb.yml --env-file ${GITHUB_WORKSPACE}/.env up -d
           docker-compose logs dynamodb-check
           aws dynamodb list-tables --region local --endpoint-url http://localhost:8000
 
