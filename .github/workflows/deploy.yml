@@ -43,7 +43,7 @@ jobs:
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
           # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml build --no-cache
-          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml up --exit-code-from static-test static-app static-test
+          docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml up --build --exit-code-from static-test static-app static-test
           docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml -f ${GITHUB_WORKSPACE}/docker-compose.static.yml logs static-app
           # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml --env-file ${GITHUB_WORKSPACE}/.env up -d
           # docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml logs dynamodb-check
