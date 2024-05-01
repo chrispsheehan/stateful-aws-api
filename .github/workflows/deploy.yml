@@ -33,6 +33,11 @@ jobs:
 
       - name: test
         shell: bash
+        env:
+          AWS_PAGER: ""
+          AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+          AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+          AWS_REGION: local
         run: |
           cp ${GITHUB_WORKSPACE}/.env.example ${GITHUB_WORKSPACE}/.env
           docker-compose -f ${GITHUB_WORKSPACE}/docker-compose.dynamodb.yml --env-file ${GITHUB_WORKSPACE}/.env up -d
