@@ -11,21 +11,36 @@ Test AWS lambda locally while developing!
 - the app and test instance will automatically (live load) run on changes to any `.ts` files.
 
 ```sh
-app-dev   | LOCAL app listening on http://localhost:9000
-test-dev  | PASS __tests__/hello.test.ts
-test-dev  |   /hello
-test-dev  |     ✓ is 200 (19 ms)
-test-dev  | 
-test-dev  | Test Suites: 1 passed, 1 total
-test-dev  | Tests:       1 passed, 1 total
-test-dev  | Snapshots:   0 total
-test-dev  | Time:        2.248 s
-test-dev  | Ran all test suites.
-test-dev  | [nodemon] clean exit - waiting for changes before restart
-test-dev  | [nodemon] restarting due to changes...
-test-dev  | [nodemon] starting `npm test`
-app-dev   | [nodemon] restarting due to changes...
-app-dev   | [nodemon] starting `ts-node ./src/app.local.ts`
+app   | [nodemon] 3.1.0
+app   | [nodemon] to restart at any time, enter `rs`
+app   | [nodemon] watching path(s): *.*
+app   | [nodemon] watching extensions: ts,json
+app   | [nodemon] starting `ts-node ./src/app.local.ts`
+app   | LOCAL app listening on http://localhost:9000
+test  | [nodemon] 3.1.0
+test  | [nodemon] to restart at any time, enter `rs`
+test  | [nodemon] watching path(s): *.*
+test  | [nodemon] watching extensions: ts
+test  | [nodemon] starting `npm test`
+test  | 
+test  | > test
+test  | > jest --runInBand
+test  | 
+app   | New item added: {
+app   |   id: 'f32c0860-c806-4b5b-a9bd-54f23750e47a',
+app   |   title: 'testtxtx',
+app   |   description: 'Example Description',
+app   |   completed: false
+app   | }
+test  | PASS __tests__/putTasks.test.ts
+test  | PASS __tests__/hello.test.ts
+test  | PASS __tests__/getTasks.test.ts
+test  | 
+test  | Test Suites: 3 passed, 3 total
+test  | Tests:       4 passed, 4 total
+test  | Snapshots:   0 total
+test  | Time:        2.665 s
+test  | Ran all test suites.
 ```
 
 ## ci
