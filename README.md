@@ -28,9 +28,26 @@ app-dev   | [nodemon] restarting due to changes...
 app-dev   | [nodemon] starting `ts-node ./src/app.local.ts`
 ```
 
-## deploy
+## ci
 
-Done via terraform. Required access below (this repo uses [OIDC](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect))
+Test code completely ephemerally before environment deployment.
+
+### ephemeral dynamodb in github action
+
+```yaml
+  test:
+    runs-on: ubuntu-latest
+    services:
+      dynamodb-local:
+        image: "amazon/dynamodb-local:latest"
+        ports:
+          - "8000:8000"
+        options: --health-cmd="curl -s -o /dev/null -I -w "%{http_code}" http://localhost:8000 | grep -q 400 || exit 1" --health-interval=1s --health-timeout=2s --health-retries=10
+```
+
+### terraform
+
+Deploy to AWS via terraform. Required access below (this repo uses [OIDC](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect))
 
 ```json
 [
